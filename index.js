@@ -39,7 +39,7 @@ class Circle {
         this.ctx.font = "48px serif";
         this.ctx.textAlign = "left"
         this.ctx.fillText(this.duration, 20, 60)
-        this.ctx.font = "5em serif";
+        this.ctx.font = "10em serif";
         this.ctx.fillText(Math.round(diff / 10) / 100, this.canvas.width / 2, this.canvas.width / 2)
     }
 }
