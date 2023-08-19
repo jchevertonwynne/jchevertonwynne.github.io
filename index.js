@@ -42,7 +42,7 @@ class Circle {
         this.ctx.textAlign = "right"
         this.ctx.fillText(seconds, this.canvas.width / 2, this.canvas.width / 2)
         this.ctx.textAlign = "left"
-        this.ctx.fillText(("" + milliseconds).slice(1), this.canvas.width / 2, this.canvas.width / 2)
+        this.ctx.fillText(("" + milliseconds).slice(1) || ".00", this.canvas.width / 2, this.canvas.width / 2)
     }
 }
 
