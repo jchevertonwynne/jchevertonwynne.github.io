@@ -79,17 +79,8 @@ function setCanvasSize() {
 
 timeSubmit.addEventListener("click", parseAndStart)
 
-timeSelect.addEventListener("keyup", event => {
-    if (event.key != "Enter") {
-        return;
-    }
-    parseAndStart()
-})
+timeSelect.addEventListener("keyup", event => event.key === "Enter" && parseAndStart())
 
-time45.addEventListener("click", () => {
-    startNewtimer(45)
-})
+time45.addEventListener("click", () => startNewtimer(45))
 
-time60.addEventListener("click", () => {
-    startNewtimer(60)
-})
+time60.addEventListener("click", () => startNewtimer(60))
