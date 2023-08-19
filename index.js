@@ -8,10 +8,8 @@ const canvas = document.getElementById("canvas");
 
 function drawBackground(canvas) {
     const ctx = canvas.getContext("2d")
-    ctx.fillStyle = "green";
+    ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "red";
-    ctx.fillRect(20, 20, canvas.width - 40, canvas.height - 40);
 }
 
 class Circle {
@@ -20,7 +18,6 @@ class Circle {
         this.ctx = this.canvas.getContext("2d");
         this.duration = duration
         this.start = new Date()
-        this.interval = setInterval(() => this.drawCircle(), 10)
     }
 
     drawCircle() {
@@ -28,11 +25,11 @@ class Circle {
         const percentage = diff / (this.duration * 10) % 100
         drawBackground(this.canvas)
         this.ctx.beginPath()
-        this.ctx.strokeStyle = "blue"
+        this.ctx.strokeStyle = "red"
         this.ctx.lineWidth = this.canvas.width / 10
         this.ctx.arc(this.canvas.width / 2, this.canvas.width / 2, this.canvas.width / 2 * 0.8, -Math.PI / 2, (2 * Math.PI * percentage / 100) - (Math.PI / 2))
         this.ctx.stroke()
-        this.ctx.fillStyle = "black"
+        this.ctx.fillStyle = "white"
         this.ctx.font = "48px serif"
         this.ctx.textAlign = "left"
         this.ctx.fillText(this.duration, 20, 60)
@@ -47,7 +44,7 @@ class Circle {
     }
 }
 
-let circle = undefined;
+let interval = undefined;
 
 window.onresize = setCanvasSize
 setCanvasSize()
@@ -62,10 +59,11 @@ function parseAndStart() {
 }
 
 function startNewtimer(time) {
-    if (circle !== undefined) {
-        clearInterval(circle.interval)
+    if (interval !== undefined) {
+        clearInterval(interval)
     }
-    circle = new Circle(canvas, time)
+    const circle = new Circle(canvas, time)
+    interval = setInterval(() => circle.drawCircle(), 10)
 }
 
 function setCanvasSize() {
