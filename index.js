@@ -1,4 +1,5 @@
 const body = document.getElementById("body")
+const options = document.getElementsByClassName("options")
 const timeSelect = document.getElementById("time-select")
 const timeSubmit = document.getElementById("time-submit")
 const time45 = document.getElementById("time-45")
@@ -70,6 +71,9 @@ function startNewtimer(time) {
 function setCanvasSize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerWidth;
+    for (const optDiv of options) {
+        optDiv.style.height = (window.innerHeight - window.innerWidth) / 2
+    }
     drawBackground(canvas)
 }
 
