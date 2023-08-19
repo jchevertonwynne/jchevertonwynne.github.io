@@ -6,10 +6,9 @@ const time45 = document.getElementById("time-45")
 const time60 = document.getElementById("time-60")
 const canvas = document.getElementById("canvas");
 
-function drawBackground(canvas) {
-    const ctx = canvas.getContext("2d")
+function drawBackground(ctx, width, height) {
     ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, width, height);
 }
 
 class Circle {
@@ -21,23 +20,26 @@ class Circle {
     }
 
     drawCircle() {
+        drawBackground(this.ctx, this.canvas.width, this.canvas.height)
         const diff = new Date() - this.start
         const percentage = diff / (this.duration * 10) % 100
-        drawBackground(this.canvas)
+
         this.ctx.beginPath()
         this.ctx.strokeStyle = "red"
         this.ctx.lineWidth = this.canvas.width / 10
         this.ctx.arc(this.canvas.width / 2, this.canvas.width / 2, this.canvas.width / 2 * 0.8, -Math.PI / 2, (2 * Math.PI * percentage / 100) - (Math.PI / 2))
         this.ctx.stroke()
+
         this.ctx.fillStyle = "white"
         this.ctx.font = "48px serif"
         this.ctx.textAlign = "left"
         this.ctx.fillText(this.duration, 20, 60)
-        this.ctx.font = "10em serif"
-        this.ctx.textAlign = "center"
-        const seconds = Math.round(diff / 1000)
-        const milliseconds = Math.round(100 * ((diff / 1000)  % 1)) / 100
         this.ctx.textAlign = "right"
+        this.ctx.fillText(Math.floor(diff / (this.duration * 1000)), this.canvas.width - 20, 60)
+
+        const seconds = Math.floor(diff / 1000)
+        const milliseconds = Math.floor(100 * ((diff / 1000)  % 1)) / 100
+        this.ctx.font = "10em serif"
         this.ctx.fillText(seconds, this.canvas.width / 2, this.canvas.width / 2)
         this.ctx.textAlign = "left"
         this.ctx.fillText(("" + milliseconds).slice(1) || ".00", this.canvas.width / 2, this.canvas.width / 2)
@@ -48,7 +50,7 @@ let interval = undefined;
 
 window.onresize = setCanvasSize
 setCanvasSize()
-drawBackground(canvas)
+drawBackground(canvas.getContext("2d"))
 
 function parseAndStart() {
     const time = parseInt(timeSelect.value)
@@ -72,13 +74,12 @@ function setCanvasSize() {
     for (const optDiv of options) {
         optDiv.style.height = (window.innerHeight - window.innerWidth) / 2
     }
-    drawBackground(canvas)
+    drawBackground(canvas.getContext("2d"))
 }
 
 timeSubmit.addEventListener("click", parseAndStart)
 
 timeSelect.addEventListener("keyup", event => {
-    console.log(event)
     if (event.key != "Enter") {
         return;
     }
