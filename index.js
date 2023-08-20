@@ -1,16 +1,3 @@
-const body = document.getElementById("body")
-const options = document.getElementsByClassName("options")
-const timeSelect = document.getElementById("time-select")
-const timeSubmit = document.getElementById("time-submit")
-const time45 = document.getElementById("time-45")
-const time60 = document.getElementById("time-60")
-const canvas = document.getElementById("canvas");
-
-function drawBackground(ctx, width, height) {
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, width, height);
-}
-
 class Circle {
     constructor(canvas, duration) {
         this.canvas = canvas;
@@ -46,26 +33,25 @@ class Circle {
     }
 }
 
-let interval = undefined;
-
-window.onresize = setCanvasSize
-setCanvasSize()
-drawBackground(canvas.getContext("2d"))
+function drawBackground(ctx, width, height) {
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, width, height);
+}
 
 function parseAndStart() {
     const time = parseInt(timeSelect.value)
-    if (time == 0 || isNaN(time)) {
+    if (time <= 0 || isNaN(time)) {
         return
     }
     startNewtimer(time)
 }
 
 function startNewtimer(time) {
-    if (interval !== undefined) {
-        clearInterval(interval)
+    if (this.interval !== undefined) {
+        clearInterval(this.interval)
     }
     const circle = new Circle(canvas, time)
-    interval = setInterval(() => circle.drawCircle(), 10)
+    this.interval = setInterval(() => circle.drawCircle(), 10)
 }
 
 function setCanvasSize() {
@@ -76,6 +62,17 @@ function setCanvasSize() {
     }
     drawBackground(canvas.getContext("2d"))
 }
+
+const options = document.getElementsByClassName("options")
+const timeSelect = document.getElementById("time-select")
+const timeSubmit = document.getElementById("time-submit")
+const time45 = document.getElementById("time-45")
+const time60 = document.getElementById("time-60")
+const canvas = document.getElementById("canvas");
+
+window.onresize = setCanvasSize
+setCanvasSize()
+drawBackground(canvas.getContext("2d"))
 
 timeSubmit.addEventListener("click", parseAndStart)
 
