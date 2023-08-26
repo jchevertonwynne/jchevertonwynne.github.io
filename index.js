@@ -18,7 +18,7 @@ class Circle {
         this.ctx.stroke()
 
         this.ctx.fillStyle = "white"
-        this.ctx.font = "48px serif"
+        this.ctx.font = "48px sans-serif"
         this.ctx.textAlign = "left"
         this.ctx.fillText(this.duration, 20, 60)
         this.ctx.textAlign = "right"
@@ -26,10 +26,25 @@ class Circle {
 
         const seconds = Math.floor(diff / 1000)
         const milliseconds = Math.floor(100 * ((diff / 1000)  % 1)) / 100
-        this.ctx.font = "10em serif"
-        this.ctx.fillText(seconds, this.canvas.width / 2, this.canvas.width / 2)
+
+        this.ctx.font = "10em sans-serif"
+        const millisecondsText = ("" + milliseconds).slice(1) || ".00"
+        const w = this.canvas.width / 2;
+        const h = this.canvas.width / 2;
+        if (!this.offset) {
+            this.offset = this.ctx.measureText(millisecondsText).actualBoundingBoxAscent * 1.1
+        }
+        const h2 = h + this.offset;
+
+        this.ctx.fillText(seconds % this.duration, w, h)
         this.ctx.textAlign = "left"
-        this.ctx.fillText(("" + milliseconds).slice(1) || ".00", this.canvas.width / 2, this.canvas.width / 2)
+        this.ctx.fillText(millisecondsText, w, h)
+
+        this.ctx.textAlign = "right"
+        this.ctx.font = "5em sans-serif"
+        this.ctx.fillText(seconds, w, h2)
+        this.ctx.textAlign = "left"
+        this.ctx.fillText(millisecondsText, w, h2)
     }
 }
 
